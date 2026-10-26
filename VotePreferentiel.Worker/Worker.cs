@@ -4,19 +4,20 @@ namespace VotePreferentiel.Worker;
 
 public class Worker : BackgroundService{
     private readonly VoteProvider _voteProvider;
+    private readonly IVoteCounter _voteCounter;
 
-    public Worker(VoteProvider voteProvider){
+    public Worker(VoteProvider voteProvider, IVoteCounter voteCounter){
         _voteProvider = voteProvider;
+        _voteCounter = voteCounter;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken){
         var voteModel = await _voteProvider.GetVotes();
 
-        Console.WriteLine($"Nombre de vote: {voteModel.Votes.Count}");
+        Console.WriteLine($"Nombre votes : {voteModel.Votes.Count}");
 
-        foreach (var vote in voteModel.Votes)
-        {
-            Console.WriteLine(string.Join(" > ", vote.Choices));
-        }
+        string winner = _voteCounter.GetWinner(voteModel);
+
+        Console.WriteLine($"Le gagnant : {winner}");
     }
 }
