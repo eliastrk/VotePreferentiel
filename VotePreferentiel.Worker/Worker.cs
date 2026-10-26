@@ -11,6 +11,7 @@ public class Worker : BackgroundService{
         _voteCounter = voteCounter;
     }
 
+    //récupère les votes, ensuite il calcule le gagnant puis l'affiche
     protected override async Task ExecuteAsync(CancellationToken stoppingToken){
         var voteModel = await _voteProvider.GetVotes();
 
