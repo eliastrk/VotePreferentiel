@@ -1,4 +1,3 @@
-
 namespace VotePreferentiel;
 
 public class VoteModel
